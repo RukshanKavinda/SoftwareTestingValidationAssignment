@@ -22,7 +22,7 @@ namespace CSE2522_Assignment_02_FC222031.Tests
         protected WebDriverWait wait => _wait.Value;
 
         [SetUp]
-        public void SetUp()
+        public virtual void SetUp()  // Added "virtual" to allow overriding in child classes
         {
             // Configure ChromeOptions to ignore SSL certificate errors
             ChromeOptions options = new ChromeOptions();

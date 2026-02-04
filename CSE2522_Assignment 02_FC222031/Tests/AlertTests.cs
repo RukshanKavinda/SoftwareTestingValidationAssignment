@@ -12,10 +12,9 @@ namespace CSE2522_Assignment_02_FC222031.Tests
     {
         private AlertPage alertPage;
 
-        [SetUp]
-        public new void SetUp()
+        public override void SetUp()
         {
-            // Call base SetUp to initialize driver
+            // Call base SetUp to initialize driver (creates ONE browser)
             base.SetUp();
 
             // Navigate to Alerts page
