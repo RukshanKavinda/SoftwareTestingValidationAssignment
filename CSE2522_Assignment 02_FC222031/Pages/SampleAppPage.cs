@@ -1,27 +1,31 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
-namespace CSE2522_Assignment_02_FC222031
+namespace CSE2522_Assignment_02_FC222031.Pages
 {
+    /// <summary>
+    /// Page Object for Sample App page
+    /// Contains only WebElements and action methods
+    /// </summary>
     public class SampleAppPage
     {
         private IWebDriver driver;
         private WebDriverWait wait;
 
+        // Constructor
         public SampleAppPage(IWebDriver driver)
         {
             this.driver = driver;
-            // Initialize explicit wait with 10 seconds timeout
             this.wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
         }
 
-        // Page Elements - Using simple XPath selectors
+        // WebElements - Locators only
         private By UsernameField => By.XPath("//input[@name='UserName']");
         private By PasswordField => By.XPath("//input[@name='Password']");
         private By LoginButton => By.XPath("//button[@id='login']");
         private By StatusLabel => By.Id("loginstatus");
 
-        // Page Actions
+        // Page Actions - Methods only (NO assertions)
         public void EnterUsername(string username)
         {
             driver.FindElement(UsernameField).Clear();
@@ -39,15 +43,21 @@ namespace CSE2522_Assignment_02_FC222031
             driver.FindElement(LoginButton).Click();
         }
 
+        public void Login(string username, string password)
+        {
+            EnterUsername(username);
+            EnterPassword(password);
+            ClickLoginButton();
+        }
+
         public string GetStatusMessage()
         {
-            // Use explicit wait to wait for the status message to appear after login
-            var statusElement = wait.Until(drv => 
+            // Use explicit wait to wait for the status message to appear
+            var statusElement = wait.Until(drv =>
             {
                 try
                 {
                     var element = drv.FindElement(StatusLabel);
-                    // Wait until the element has text (not empty)
                     return !string.IsNullOrEmpty(element.Text) ? element : null;
                 }
                 catch (NoSuchElementException)
@@ -93,14 +103,6 @@ namespace CSE2522_Assignment_02_FC222031
             {
                 return false;
             }
-        }
-
-        // Combined action method for login
-        public void Login(string username, string password)
-        {
-            EnterUsername(username);
-            EnterPassword(password);
-            ClickLoginButton();
         }
     }
 }

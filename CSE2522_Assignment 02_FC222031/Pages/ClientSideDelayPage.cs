@@ -1,8 +1,12 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
-namespace CSE2522_Assignment_02_FC222031
+namespace CSE2522_Assignment_02_FC222031.Pages
 {
+    /// <summary>
+    /// Page Object for Client Side Delay page
+    /// Contains only WebElements and action methods
+    /// </summary>
     public class ClientSideDelayPage
     {
         private IWebDriver driver;
@@ -14,12 +18,12 @@ namespace CSE2522_Assignment_02_FC222031
             this.wait = new WebDriverWait(driver, TimeSpan.FromSeconds(20));
         }
 
-        // Page Elements
+        // WebElements - Locators only
         private By TriggerButton => By.XPath("//button[contains(@class,'btn') and not(@disabled)]");
         private By LoadingIndicator => By.XPath("//div[@id='spinner' or contains(@class,'spinner')]");
         private By DataBanner => By.XPath("//p[contains(@class,'bg-success') or contains(text(),'Data calculated')]");
 
-        // Page Actions
+        // Page Actions - Methods only (NO assertions)
         public void ClickTriggerButton()
         {
             driver.FindElement(TriggerButton).Click();
@@ -30,18 +34,6 @@ namespace CSE2522_Assignment_02_FC222031
             try
             {
                 return driver.FindElement(TriggerButton).Displayed;
-            }
-            catch (NoSuchElementException)
-            {
-                return false;
-            }
-        }
-
-        public bool IsLoadingIndicatorDisplayed()
-        {
-            try
-            {
-                return driver.FindElement(LoadingIndicator).Displayed;
             }
             catch (NoSuchElementException)
             {
@@ -68,7 +60,6 @@ namespace CSE2522_Assignment_02_FC222031
 
         public void WaitForLoadingIndicatorToDisappear()
         {
-            // Wait for the loading indicator to be invisible
             wait.Until(drv =>
             {
                 try
@@ -89,7 +80,6 @@ namespace CSE2522_Assignment_02_FC222031
 
         public void WaitForDataBannerToAppear()
         {
-            // Wait for the data banner to be visible
             wait.Until(drv =>
             {
                 try

@@ -1,22 +1,26 @@
 using OpenQA.Selenium;
 
-namespace CSE2522_Assignment_02_FC222031
+namespace CSE2522_Assignment_02_FC222031.Pages
 {
-    public class AlertsPage
+    /// <summary>
+    /// Page Object for Alerts page
+    /// Contains only WebElements and action methods
+    /// </summary>
+    public class AlertPage
     {
         private IWebDriver driver;
 
-        public AlertsPage(IWebDriver driver)
+        public AlertPage(IWebDriver driver)
         {
             this.driver = driver;
         }
 
-        // Page Elements
+        // WebElements - Locators only
         private By AlertButton => By.Id("alertButton");
         private By ConfirmButton => By.Id("confirmButton");
         private By PromptButton => By.Id("promptButton");
 
-        // Page Actions
+        // Page Actions - Methods only (NO assertions)
         public void ClickAlertButton()
         {
             driver.FindElement(AlertButton).Click();
@@ -66,39 +70,6 @@ namespace CSE2522_Assignment_02_FC222031
             {
                 return false;
             }
-        }
-
-        // Alert Handling Methods
-        public string GetAlertText()
-        {
-            IAlert alert = driver.SwitchTo().Alert();
-            return alert.Text;
-        }
-
-        public void AcceptAlert()
-        {
-            IAlert alert = driver.SwitchTo().Alert();
-            alert.Accept();
-        }
-
-        public void DismissAlert()
-        {
-            IAlert alert = driver.SwitchTo().Alert();
-            alert.Dismiss();
-        }
-
-        public void EnterTextInPromptAndAccept(string text)
-        {
-            IAlert alert = driver.SwitchTo().Alert();
-            alert.SendKeys(text);
-            alert.Accept();
-        }
-
-        public void EnterTextInPromptAndDismiss(string text)
-        {
-            IAlert alert = driver.SwitchTo().Alert();
-            alert.SendKeys(text);
-            alert.Dismiss();
         }
 
         public bool IsAlertPresent()

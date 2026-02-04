@@ -1,7 +1,11 @@
 using OpenQA.Selenium;
 
-namespace CSE2522_Assignment_02_FC222031
+namespace CSE2522_Assignment_02_FC222031.Pages
 {
+    /// <summary>
+    /// Page Object for Text Input page
+    /// Contains only WebElements and action methods
+    /// </summary>
     public class TextInputPage
     {
         private IWebDriver driver;
@@ -11,11 +15,11 @@ namespace CSE2522_Assignment_02_FC222031
             this.driver = driver;
         }
 
-        // Page Elements
+        // WebElements - Locators only
         private By InputField => By.XPath("//input[@type='text']");
         private By UpdateButton => By.XPath("//button[contains(@class,'btn')]");
 
-        // Page Actions
+        // Page Actions - Methods only (NO assertions)
         public void EnterTextIntoInputField(string text)
         {
             driver.FindElement(InputField).Clear();

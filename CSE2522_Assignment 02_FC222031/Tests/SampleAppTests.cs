@@ -1,11 +1,10 @@
-using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
+using CSE2522_Assignment_02_FC222031.Pages;
 
-namespace CSE2522_Assignment_02_FC222031
+namespace CSE2522_Assignment_02_FC222031.Tests
 {
     /// <summary>
     /// Test class for TC002 - Sample App functionality
-    /// Handles TC002_1 through TC002_3: Login UI, successful login, and unsuccessful login
+    /// Contains only test logic and assertions (NO page actions)
     /// </summary>
     [TestFixture]
     public class SampleAppTests : BaseTest
@@ -13,10 +12,10 @@ namespace CSE2522_Assignment_02_FC222031
         private SampleAppPage sampleAppPage;
 
         [SetUp]
-        public void Setup()
+        public new void SetUp()
         {
-            // Initialize WebDriver with SSL bypass
-            InitializeDriver();
+            // Call base SetUp to initialize driver
+            base.SetUp();
 
             // Navigate to Sample App page
             NavigateToPage("sampleapp");
@@ -26,57 +25,56 @@ namespace CSE2522_Assignment_02_FC222031
         }
 
         [Test(Description = "TC002_1 - Sample App - Verification of the sample app page")]
-        [TestCase(TestName = "TC002_1_VerifySampleAppPageDisplayed")]
-        public void TC002_1_VerifySampleAppPageDisplayed()
+        [TestCase(TestName = "TC002_1")]
+        public void TC002_1()
         {
-            // Assert: Sample App page is displayed. User name, Password and Login button are appearing.
+            // Assert: Sample App page is displayed
             Assert.That(driver.Url, Does.Contain("sampleapp"), "Sample App page URL is not correct");
+            
+            // Assert: User name field is appearing
             Assert.That(sampleAppPage.IsUsernameFieldDisplayed(), Is.True, "Username field is not displayed");
+            
+            // Assert: Password field is appearing
             Assert.That(sampleAppPage.IsPasswordFieldDisplayed(), Is.True, "Password field is not displayed");
+            
+            // Assert: Login button is appearing
             Assert.That(sampleAppPage.IsLoginButtonDisplayed(), Is.True, "Login button is not displayed");
         }
 
         [Test(Description = "TC002_2 - Sample App - Verification of a successful login")]
-        [TestCase(TestName = "TC002_2_VerifySuccessfulLogin")]
-        public void TC002_2_VerifySuccessfulLogin()
+        [TestCase(TestName = "TC002_2")]
+        public void TC002_2()
         {
-            // Arrange - The correct password for Sample App is "pwd"
+            // Arrange
             string username = "TestUser";
             string password = "pwd";
 
-            // Act: User inputs a correct user name and password
+            // Act: Perform login action (delegated to Page Object)
             sampleAppPage.Login(username, password);
 
-            // Assert: User welcome message appears (GetStatusMessage has explicit wait)
+            // Assert: User welcome message appears
             string statusMessage = sampleAppPage.GetStatusMessage();
-            Assert.That(statusMessage, Does.Contain("Welcome").IgnoreCase, 
+            Assert.That(statusMessage, Does.Contain("Welcome").IgnoreCase,
                 $"Welcome message not displayed. Actual message: '{statusMessage}'");
-            Assert.That(statusMessage, Does.Contain(username).IgnoreCase, 
+            Assert.That(statusMessage, Does.Contain(username).IgnoreCase,
                 $"Welcome message does not contain username. Actual message: '{statusMessage}'");
         }
 
         [Test(Description = "TC002_3 - Sample App - Verification of an unsuccessful login")]
-        [TestCase(TestName = "TC002_3_VerifyUnsuccessfulLogin")]
-        public void TC002_3_VerifyUnsuccessfulLogin()
+        [TestCase(TestName = "TC002_3")]
+        public void TC002_3()
         {
-            // Arrange - Using incorrect password
+            // Arrange
             string username = "TestUser";
             string incorrectPassword = "wrongpassword";
 
-            // Act: User inputs a correct user name and an incorrect password
+            // Act: Perform login action with incorrect password (delegated to Page Object)
             sampleAppPage.Login(username, incorrectPassword);
 
-            // Assert: Invalid Username/password message appears (GetStatusMessage has explicit wait)
+            // Assert: Invalid Username/password message appears
             string statusMessage = sampleAppPage.GetStatusMessage();
-            Assert.That(statusMessage, Does.Contain("Invalid").IgnoreCase, 
+            Assert.That(statusMessage, Does.Contain("Invalid").IgnoreCase,
                 $"Invalid credentials message not displayed. Actual message: '{statusMessage}'");
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            // Clean up resources
-            CleanupDriver();
         }
     }
 }
